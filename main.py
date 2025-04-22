@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv #env for env file
+from waitress import serve
 #from city import call_city_aqi
 
 
@@ -114,4 +115,5 @@ def calculate():
     return render_template("calculate.html")
 
 if __name__ == '__main__':
+    #serve(app, host="0.0.0.0", port=81)  # use when deploying. Production server.
     app.run(host='0.0.0.0', port=81, debug=True)
