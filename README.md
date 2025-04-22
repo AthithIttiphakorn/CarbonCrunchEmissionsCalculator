@@ -1,3 +1,3 @@
-# North-Ryu-Project11
-# North-Ryu-Project11
-# cc
+https://education.github.com/git-cheat-sheet-education.pdf
+Git Cheat sheet
+Install git first tho
