@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <title>North Ryu Global Warming Website</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #4CAF50, #2E8B57);
+            overflow: hidden;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 25px;
+            display: inline-block;
+            font-size: 18px;
+            transition: background 0.3s, transform 0.2s;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        .container {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        h1 {
+            font-size: 3em;
+            color: #2E8B57;
+        }
+        p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: auto;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            color: white;
+            background: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #45a049;
+        }
+
+
+            /* Style the form container */
+    form {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2E8B57;
+        margin-top: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin: 10px 0 5px;
+        color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    select {
+        background-color: #f9f9f9;
+    }
+
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        font-size: 18px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    /* Add section dividers for clarity */
+    h2:not(:first-child) {
+        border-top: 2px solid #eee;
+        padding-top: 20px;
+        margin-top: 40px;
+    }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('calculate') }}">Calculate your carbon footprint</a>
+        <a href="{{ url_for('index') }}">About global warming</a>
+    </div>
+
+    <h2>C02 Emmissions Calculator</h2>
+    <!--send form information to display route flask-->
+    <form action="/display" method="post">
+    
+        <label for="city">Enter City Name:</label>
+        <!--name is identifier for flask (or any other framework)-->
+        <input type="text" id="city" name="city" required>
+    
+        <h2>Transport</h2>
+        <label>How many km do you drive per day?</label><br>
+        <input type="number" name="km_per_day" min="0" required><br><br>
+    
+        <label>Type of vehicle:</label><br>
+        <select name="vehicle_type" required>
+            <option value="car">Petrol Car</option>
+            <option value="diesel">Diesel Car</option>
+            <option value="electric">Electric Car</option>
+            <option value="bus">Bus</option>
+            <option value="traindsel">Diesel Train</option>
+            <option value="trainelec">Electric Train</option>
+            <option value="subway">Subway</option>
+            <option value="bike">Bike</option>
+            <option value="walk">Walk</option>
+            <!-- <option value="nuke">Nuclear powered car/tank</option> -->
+        </select><br><br>
+    
+        <label>How many kilometers do you fly per year?</label><br>
+        <input type="number" name="flights_km" min="0" required><br><br>
+    
+        <h2>Home Energy</h2>
+        <label>Electricity used per month (kWh): (Global Average: 175 kWh/month)</label><br>
+        <input type="number" name="electricity_kwh" min="0" required><br><br>
+    
+        <label>how many m³ of gas per month? (Global Average: 35m3/month)</label><br>
+        <input type="number" name="gas_m3" min="0"><br><br>
+    
+        <h2>Diet</h2>
+        <label>What best describes your diet?</label><br>
+        <select name="diet_type" required>
+            <option value="high_meat">High meat eater (Consume a lot of meat everyday)</option>
+            <option value="medium_meat">Moderate meat eater (Consume some meat for most days)</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+        </select><br><br>
+    
+        <h2>Shopping / Lifestyle</h2>
+        <label>How often do you buy new clothes or electronics?</label><br>
+        <select name="lifestyle_level" required>
+            <option value="light">Rarely (Light consumer - Rarely spending money on shopping)</option>
+            <option value="average">Sometimes (Average consumer - spending some money on shopping)</option>
+            <option value="heavy">Often (Heavy consumer - Shopping everyday and spending a lot)</option>
+        </select><br><br>
+    
+        <button type="submit">Calculate My Carbon Footprint</button>
+    </form>
+
+</body>
+</html>
+
+
+<!--Global Average Gas Consumption Per Month:
+
+Natural Gas Reserves and Consumption: According to Worldometer, as of 2017, the world consumed approximately 132.29 trillion cubic feet (MMcf) of natural gas annually, which translates to about 11.02 trillion cubic feet per month. ​
+Worldometer
+
+Global Average Electricity Consumption Per Month:
+
+Per Capita Electricity Consumption: Data from the International Energy Agency (IEA) indicates that in 2022, the global average per capita electricity consumption was approximately 3,000 kilowatt-hours (kWh) per person per year, or about 250 kWh per person per month. ​
+Wikipedia
+
+Household Electricity Consumption: According to data compiled by Shrink That Footprint, the average annual electricity consumption per household varies by country, with the global average around 3,500 kWh in 2010. ​
+Shrink That Footprint
+
+Country-Specific Consumption: For instance, in the United States, the average residential electricity consumption is about 877 kWh per month. ​
+Gitnux.org
++1
+Gitnux.org
++1
+
+
+FaviconWorldometer
+World Natural Gas Statistics - Worldometer
+NATURAL GAS LEFT IN THE WORLD (BOE): retrieving data... SUMMARY TABLE | Million Cubic Ft (MMcf) | Million BOE (barrels of oil equivalent) Gas Reserves | 6,922,922,000 | 1,153,820 Gas Consumption...
+FaviconWikipedia
+Electric energy consumption
+February 19, 2025 — WORLD ELECTRICITY CONSUMPTION The table lists 45 electricity-consuming countries, which used about 22,000 TWh. These countries comprise about 90% of the final consumption of 190+ countries. The final...
+FaviconShrink That Footprint
+Average Household Electricity Consumption - 2025 - Shrink That Footprint
+COMPARING THE US, FRANCE, UK AND CHINA In the US typical household power consumption is about 10,178 kWh each year, in France it is 6,400 kWh, in the UK it is 4,600 kWh and in China around 1,300 kWh....
+FaviconGitnux.org
+Average Daily Kwh Usage Statistics: Market Data Report 2024
+SUMMARY * • The average residential electricity consumption in the US is 877 kWh per month. * • The average annual electricity consumption per household in the UK is 3,731 kWh. * • The average daily...
+More
+FaviconGitnux.org
+Average Kwh Usage Per Month Statistics: Market Data Report 2024
+☰ 1. Home 2. /Energy and Utilities Statistics 3. /Global Household Electricity Consumption: Average kWh Usage Per Month Revealed GITNUX REPORT 2024 GLOBAL HOUSEHOLD ELECTRICITY CONSUMPTION: AVERAGE...
+FaviconGitnux.org
+Average Daily Kwh Usage Statistics: Market Data Report 2024
+SUMMARY * • The average residential electricity consumption in the US is 877 kWh per month. * • The average annual electricity consumption per household in the UK is 3,731 kWh. * • The average daily...
+FaviconGitnux.org
+Average Kilowatt Usage Per Month Statistics: Market Data Report 2024
+AVERAGE MONTHLY ELECTRICITY CONSUMPTION IN ASIA * In Australia, the average household electricity consumption is about 1,085 kWh per month. * In China, the average monthly electricity consumption per...
+FaviconShrink That Footprint
+Average Household Electricity Consumption - 2025 - Shrink That Footprint
+COMPARING THE US, FRANCE, UK AND CHINA In the US typical household power consumption is about 10,178 kWh each year, in France it is 6,400 kWh, in the UK it is 4,600 kWh and in China around 1,300 kWh....
+FaviconStatista
+Global electricity consumption 2023 | Statista
+Over the past half a century, the world's electricity consumption has continuously grown, reaching approximately 27,000 terawatt-hours by 2023. Between 1980 and 2023, electricity consumption more than...
+FaviconStatista
+Per capita energy consumption 1965-2023 | Statista
+Per capita energy consumption averaged 21,394 kilowatt-hours worldwide in 2023. This was up from a pandemic induced slump in 2020. Qatar has the highest per capita energy consumption of any country wo...
+FaviconWorldometer
+World Natural Gas Statistics - Worldometer
+NATURAL GAS LEFT IN THE WORLD (BOE): retrieving data... SUMMARY TABLE | Million Cubic Ft (MMcf) | Million BOE (barrels of oil equivalent) Gas Reserves | 6,922,922,000 | 1,153,820 Gas Consumption...
+FaviconWorldometer
+Electricity Statistics - Worldometer
+ELECTRICITY STATISTICS BY COUNTRY | COUNTRY | ELECTRICITY Consumption (MWh) | World Share | Yearly KWh Per Capita 1 | China | 5,563,928,540 | 25.5 % | 3,963 2 | United States | 3,902,306,02...
+FaviconIEA
+Electricity consumption – Electricity Information: Overview – Analysis - IEA
+You are connecting via IP recognition from . If you wish to proceed, click on Connect. If you prefer to log into your personal account, please sign in below. Connect OR CREATE AN ACCOUNT Create a...
+TheGlobalEconomy.com
+Electricity consumption by country, around the world | TheGlobalEconomy.com
+Learning resources and data on the world economy ELECTRICITY CONSUMPTION - COUNTRY RANKINGS * indicates monthly or quarterly data series ELECTRICITY CONSUMPTION, BILLION KILOWATTHOURS, 2022: The a...
+FaviconOur World in Data
+Global comparison: how much energy do people consume? - Our World in Data
+Gdoc/Admin There are vast differences in energy consumption across the world. We see this in the map, which measures per capita energy use. The ratio between the US and India for example is around 1...
+3ffective
+average electricity usage per month
+So if you’re gearing up for a (Scroll down to see how you can win a $500 gift card to Home Depot)A: The Federal Government in the year 2019 will pay for 30% of your solar cost. On average, a rough est...
+-->
