@@ -44,7 +44,7 @@ def display_footprint():
     if request.method == "POST":
 
 
-
+#ryu
         city = request.form["city"]
         print(city)
       #  gifty = call_city_aqi(city)
