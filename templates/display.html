@@ -8,6 +8,9 @@
     
     <title>North Ryu Global Warming Website</title>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -69,6 +72,14 @@
         }
         .green {
             color: #00ff7f;
+        }
+        .footer {
+            background-color: #2E7D32;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1rem;
+            margin-top: 50px;
         }
         .smoke-cloud{
             top: 50%;
@@ -139,9 +150,9 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('calculate') }}">Calculate your carbon footprint</a>
-        <a href="{{ url_for('index') }}">About global warming</a>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('calculate') }}">Calculate your Carbon Footprint</a>
+      <a href="{{ url_for('index') }}">About Global Warming</a>
     </div>
     <div class="container">
         <div class="smoke-cloud" id="cloud"></div>
@@ -197,6 +208,9 @@
   <button class="custom-carousel-btn right" data-bs-target="#productCarousel" data-bs-slide="next">
     <div class="triangle-right"></div>
   </button>
+  <footer class="footer">
+    Made by North, Ryu, 2025
+  </footer>
   
   
   

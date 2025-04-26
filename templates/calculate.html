@@ -8,6 +8,9 @@
     
     <title>North Ryu Global Warming Website</title>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -131,10 +134,9 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('calculate') }}">Calculate your carbon footprint</a>
-        <a href="{{ url_for('index') }}">About global warming</a>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('calculate') }}">Calculate your Carbon Footprint</a>
+    <a href="{{ url_for('index') }}">About Global Warming</a>
     </div>
 
     <h2>C02 Emmissions Calculator</h2>
@@ -192,7 +194,9 @@
     
         <button type="submit">Calculate My Carbon Footprint</button>
     </form>
-
+    <footer class="footer">
+        Made by North, Ryu, 2025
+      </footer>
 </body>
 </html>
 
