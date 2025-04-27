@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv #env for env file
 from waitress import serve
+import plotly.express as px
 #from city import call_city_aqi
 
 
@@ -21,12 +22,21 @@ v_typedict = {
     "bike": 0.015,
     "walk": 0.008
 }
+average = {
+    "transport":1700,
+    "diet":2200,
+    "flight":500,
+    "lifestyle":500,
+    "electricity":720,
+    "gas":786
+
+}
 
 dietdict = {
-    "high_meat": 3.3,    
-    "medium_meat": 2.5,
-    "vegetarian": 1.7,
-    "vegan": 1.4
+    "high_meat": 6000,    
+    "medium_meat": 4000,
+    "vegetarian": 2400,
+    "vegan": 1500
 }
 
         
@@ -56,10 +66,34 @@ def display_footprint():
         gas = int(request.form["gas_m3"])
         diet = request.form["diet_type"]
         lifestyle = request.form["lifestyle_level"]
- 
- 
-        co2 = (km_day * v_typedict[v_type]  * 365) + lifestyledict[lifestyle] * 365 + dietdict[diet] * 365 + ( 2.015 * gas ) * 12 + 0.16*flight_km + electricity * 12 * 0.233
-        print((km_day * v_typedict[v_type]  * 365), lifestyledict[lifestyle] * 365, dietdict[diet] * 365, ( 2.015 * gas ) * 12, 0.16*flight_km, electricity * 12 * 0.233)
+        
+        graph = px.bar(
+            x = ["Land Transportation", "Transport World Average", "Flights","Flights World Average", "Electricity Usage", "Electricity Usage World Average", "Gas Usage", "Gas Usage World Average", "Lifestyle", "Lifestyle World Average", "Diet","Diet World Average" ],
+            y = [ km_day  * v_typedict[v_type] * 360,
+                 average["transport"],
+                 0.115*flight_km, 
+                 average["flight"],
+                 electricity * 12 * 0.233,
+                 average["electricity"],
+                 gas * 2.015 * 12,
+                 average["gas"],
+                 lifestyledict[lifestyle] * 365,
+                 average["lifestyle"],
+                 dietdict[diet],
+                 average["diet"]
+                 ],
+
+            color =  ["Land Transportation", "Transport World Average", "Flights","Flights World Average", "Electricity Usage", "Electricity World Average", "Gas Usage", "Gas World Average", "Lifestyle", "Lifestyle World Average", "Diet","DietWorld Average" ],
+            color_discrete_sequence = ['blue', 'red','blue', 'red', 'blue', 'red', 'blue', 'red', 'blue', 'red', 'blue', 'red'],
+
+            labels={'x':'Carbon Emssions From:', 'y':'Carbon Emissions in tonnes per year'},
+            title="Carbon Emissions caused by your activities"
+        )
+        
+        graph = graph.to_html()
+       
+        co2 = (km_day * v_typedict[v_type]  * 365) + lifestyledict[lifestyle] * 365 + dietdict[diet] + ( 2.015 * gas ) * 12 + 0.115 * flight_km + electricity * 12 * 0.233
+   #     print((km_day * v_typedict[v_type]  * 365), lifestyledict[lifestyle] * 365, dietdict[diet] * 365, ( 2.015 * gas ) * 12, 0.16*flight_km, electricity * 12 * 0.233)
 
         if co2 >= 5000:
             text_color = "red"
@@ -84,7 +118,7 @@ def display_footprint():
 
         if electricity > 900 and v_type != "electric":
             #print("recommend electricity")
-            recommend.append( { "name": "Save Energy",
+          recommend.append( { "name": "Save Energy",
                                "image":"https://img.freepik.com/premium-vector/turning-off-switch-energy-saving-save-energy-concept-press-electric-button-vectorxd_506530-4321.jpg",
                                "description":"less co2 from burning"
 
@@ -106,9 +140,14 @@ def display_footprint():
         "display.html",
         emissions = co2,
         text_color = text_color,
-        recommendation = recommend
+        recommendation = recommend,
+        graph = graph
     )
 
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 @app.route('/calculate', methods=["GET", "POST"])
 def calculate():
